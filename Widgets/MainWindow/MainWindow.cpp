@@ -4,7 +4,8 @@
 
 #include <iomanip>
 #include "MainWindow.h"
-#include "../../Core/Calculator/Calculator.h"
+#include "../../Core/Headers/Calculator.h"
+#include "../../Core/Headers/HistoryDelegate.h"
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
@@ -22,8 +23,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 void MainWindow::createHistoryList() {
-    HistoryList = new QListView;
-    layout->addWidget(HistoryList, 0, 0, 1, 2);
+    HistoryListView = new QListView;
+    historyList = {};
+    historyModel = new HistoryModel(historyList);
+    HistoryListView->setModel(historyModel);
+    HistoryListView->setItemDelegate(new HistoryDelegate(HistoryListView));
+
+    layout->addWidget(HistoryListView, 0, 0, 1, 2);
 }
 
 void MainWindow::createExpressionInput() {
@@ -51,6 +57,14 @@ void MainWindow::createCalculateButton() {
 
 void MainWindow::calculateSum() {
     auto expression = ExpressionInput->text().toStdString();
-    auto result = Calculator::evaluateExpression(&expression);
-    ResultOutput->setText(std::to_string(result).c_str());
+    auto result = round(Calculator::evaluateExpression(&expression) * 100) / 100.0;
+    auto resultString = QString::number(result, 'f', 2)
+            .trimmed()
+            .remove(QRegularExpression("0+$"))
+            .remove(QRegularExpression("\\.$"));
+
+    auto* model = dynamic_cast<HistoryModel *>(HistoryListView->model());
+    model->addHistoryItem(HistoryItem(expression.c_str(), resultString));
+    ResultOutput->setText(resultString);
+    HistoryListView->scrollToBottom();
 }

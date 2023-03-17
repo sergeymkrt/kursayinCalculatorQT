@@ -16,7 +16,7 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(KursayinCalculator main.cpp Widgets/MainWindow/MainWindow.cpp Widgets/MainWindow/MainWindow.h Core/Calculator/Calculator.cpp Core/Calculator/Calculator.h Core/Number/Number.cpp Core/Number/Number.h)
+add_executable(KursayinCalculator main.cpp Widgets/MainWindow/MainWindow.cpp Widgets/MainWindow/MainWindow.h Core/Src/Calculator.cpp Core/Headers/Calculator.h Core/Src/Number.cpp Core/Headers/Number.h Core/Src/HistoryModel.cpp Core/Headers/HistoryModel.h Core/Headers/HistoryItem.h Core/Headers/HistoryDelegate.h)
 target_link_libraries(KursayinCalculator
         Qt6::Core
         Qt6::Gui

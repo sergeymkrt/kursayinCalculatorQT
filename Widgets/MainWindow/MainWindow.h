@@ -11,6 +11,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include "../../Core/Headers/HistoryModel.h"
 
 class MainWindow : public QMainWindow
 {
@@ -28,12 +29,14 @@ private:
     void createResultOutput();
     void createCalculateButton();
 
+    QList<HistoryItem> historyList;
+    HistoryModel *historyModel;
     QGridLayout *layout;
     QLabel *ExpressionLabel{};
     QLabel *ResultLabel{};
     QLineEdit *ExpressionInput{};
     QLineEdit *ResultOutput{};
-    QListView *HistoryList{};
+    QListView *HistoryListView{};
     QPushButton *CalculateButton{};
 };
 

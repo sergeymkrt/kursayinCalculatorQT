@@ -5,8 +5,8 @@
 #include <stack>
 #include <regex>
 #include <sstream>
-#include "Calculator.h"
-#include "../Number/Number.h"
+#include "../Headers/Calculator.h"
+#include "../Headers/Number.h"
 
 double Calculator::evaluateExpression(std::string *infixExpression) {
     auto postfixExpression = Calculator::InfixToPostfix(infixExpression);
@@ -51,7 +51,7 @@ double Calculator::evaluateExpression(std::string *infixExpression) {
 
 std::string Calculator::InfixToPostfix(std::string *infixExpression) {
     auto stack = new std::stack<char>();
-    std::string output = "";
+    std::string output;
     char _out;
     bool isDecimal = false;
 

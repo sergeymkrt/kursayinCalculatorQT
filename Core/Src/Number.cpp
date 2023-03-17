@@ -2,7 +2,7 @@
 // Created by Sergey Mkrtumyan on 17.03.23.
 //
 
-#include "Number.h"
+#include "../Headers/Number.h"
 #include "QtMath"
 Number::Number(double value) {
     Value = value;
