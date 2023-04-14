@@ -17,7 +17,26 @@ find_package(Qt6 COMPONENTS
         Sql
         REQUIRED)
 
-add_executable(KursayinCalculator main.cpp Widgets/MainWindow/MainWindow.cpp Widgets/MainWindow/MainWindow.h Core/Src/Calculator.cpp Core/Headers/Calculator.h Core/Src/Number.cpp Core/Headers/Number.h Core/Src/HistoryModel.cpp Core/Headers/HistoryModel.h Core/Headers/HistoryItem.h Core/Headers/HistoryDelegate.h Widgets/Authentication/AuthenticationWidget.cpp Widgets/Authentication/AuthenticationWidget.h Core/Src/UserService.cpp Core/Headers/UserService.h Data/DbManager.cpp Data/DbManager.h Entities/User.h)
+add_executable(KursayinCalculator
+        main.cpp
+        Widgets/MainWindow/MainWindow.cpp
+        Widgets/MainWindow/MainWindow.h
+        Core/Src/Calculator.cpp
+        Core/Headers/Calculator.h
+        Core/Src/Number.cpp
+        Core/Headers/Number.h
+        Core/Src/HistoryModel.cpp
+        Core/Headers/HistoryModel.h
+        Core/Headers/HistoryItem.h
+        Core/Headers/HistoryDelegate.h
+        Widgets/Authentication/AuthenticationWidget.cpp
+        Widgets/Authentication/AuthenticationWidget.h
+        Core/Src/UserService.cpp
+        Core/Headers/UserService.h
+        Data/DbManager.cpp
+        Data/DbManager.h
+        Entities/User.h
+        )
 target_link_libraries(KursayinCalculator
         Qt6::Core
         Qt6::Gui

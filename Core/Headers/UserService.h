@@ -22,8 +22,8 @@ signals:
     void Failed();
 
 private:
-    QString hashPassword(const QString &password);
-    bool authenticate(const QString &password, const QString &hash);
+    static QString hashPassword(const QString &password);
+    static bool authenticate(const QString &password, const QString &hash);
     DbManager *dbManager{};
 };
 

@@ -10,6 +10,7 @@ class Number {
 public:
     double Value;
     explicit Number(double value);
+    explicit Number();
 
     Number operator+(Number other) const;
     Number operator-(Number other) const;
@@ -17,6 +18,8 @@ public:
     Number operator/(Number other) const;
     Number operator%(Number other) const;
     Number operator^(Number other) const;
+    Number operator<<(int bits) const;
+    Number operator>>(int bits) const;
 };
 
 

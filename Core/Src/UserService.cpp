@@ -3,7 +3,6 @@
 //
 
 #include "../Headers/UserService.h"
-#include "../../Data/DbManager.h"
 #include <QCryptographicHash>
 #include <QRandomGenerator>
 
@@ -40,7 +39,8 @@ void UserService::registerUser(const QString &login, const QString &password) {
 QString UserService::hashPassword(const QString &password) {
     // Generate a random 8-byte salt
     QByteArray salt(8, Qt::Uninitialized);
-    QRandomGenerator::securelySeeded().generate(reinterpret_cast<quint8*>(salt.data()), reinterpret_cast<quint8*>(salt.data() + salt.size()));
+    QRandomGenerator::securelySeeded().generate(reinterpret_cast<quint8*>(salt.data()),
+                                                reinterpret_cast<quint8*>(salt.data() + salt.size()));
 
     // Hash the password with the salt using the SHA-256 algorithm
     QByteArray data = salt + password.toUtf8();

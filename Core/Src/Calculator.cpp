@@ -4,11 +4,37 @@
 
 #include <stack>
 #include <regex>
-#include <sstream>
+#include <QDebug>
 #include "../Headers/Calculator.h"
 #include "../Headers/Number.h"
 
 double Calculator::evaluateExpression(std::string *infixExpression) {
+    //regex for shifting
+    std::regex leftShiftRegex("\\d << \\d");
+    std::regex rightShiftRegex("\\d >> \\d");
+
+    //check if the expression is shifting or not
+    if (std::regex_match(*infixExpression, leftShiftRegex) || std::regex_match(*infixExpression, rightShiftRegex)) {
+        //split the expression
+        std::vector<std::string> tokens = splitString(*infixExpression);
+
+        //get the number ( string to double )
+        double number = std::stod(tokens[0]);
+
+        //get the bits ( string to int )
+        int bits = std::stoi(tokens[2]);
+
+        //check if the expression is left shifting or right shifting
+        if (tokens[1] == "<<") {
+            //left shifting
+            return (int)number << bits;
+        } else {
+            //right shifting
+            return (int)number >> bits;
+        }
+    }
+
+
     auto postfixExpression = Calculator::InfixToPostfix(infixExpression);
     auto stack = new std::stack<Number>();
     auto tokens = splitString(postfixExpression);
@@ -128,12 +154,11 @@ int Calculator::getPrecedence(char c) {
         case '*':
         case '/':
         case '%':
+        case '^':
             return 3;
         case '+':
         case '-':
             return 2;
-        case '^':
-            return 1;
         default:
             return -1;
     }
@@ -141,18 +166,26 @@ int Calculator::getPrecedence(char c) {
 
 std::vector<std::string> Calculator::splitString(const std::string &str) {
     std::vector<std::string> result;
-    std::stringstream ss(str);
-    std::string token;
-    while (std::getline(ss, token, ' ')) {
-        if (!token.empty()) {
-            result.push_back(token);
-        }
+    size_t pos = 0, last_pos = 0;
+    while ((pos = str.find(' ', last_pos)) != std::string::npos) {
+        std::string word = str.substr(last_pos, pos - last_pos);
+        result.push_back(word);
+        last_pos = pos + 1;
     }
+    std::string word = str.substr(last_pos);
+    result.push_back(word);
+
     return result;
 }
 
+//take as input str and value as references
+//try to parse str to double and if it is successful then return true and assign the value to value
 bool Calculator::tryParseDouble(const std::string &str, double &value) {
-    std::istringstream iss(str);
-    iss >> value;
-    return !iss.fail() && iss.eof();
+    try{
+        value = std::stod(str);
+        return true;
+    }
+    catch(const std::invalid_argument& e){
+        return false;
+    }
 }
