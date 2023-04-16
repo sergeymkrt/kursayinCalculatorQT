@@ -3,7 +3,6 @@
 //
 
 #include "DbManager.h"
-#include <QDebug>
 #include <QSqlQuery>
 #include <QSqlDriver>
 #include <QSqlError>
@@ -58,7 +57,8 @@ bool DbManager::createTables() {
     query.prepare("CREATE TABLE IF NOT EXISTS Users ("
                   "id INTEGER PRIMARY KEY AUTOINCREMENT, "
                   "username TEXT UNIQUE, "
-                  "password TEXT)");
+                  "password TEXT,"
+                  "salt TEXT)");
 
     if (query.exec()) {
         success = true;
@@ -74,10 +74,8 @@ bool DbManager::addUser(const User &user) {
 
     if (!isUserExist(user.username())) {
         QSqlQuery queryAdd;
-        queryAdd.prepare(QString("INSERT INTO Users (username,password) "
-                         "VALUES ('%1', '%2')").arg(user.username(),user.password()));
-
-        qDebug() << "add user: " << user.username() << " " << user.password();
+        queryAdd.prepare(QString("INSERT INTO Users (username,password,salt) "
+                         "VALUES ('%1', '%2', '%3')").arg(user.username(),user.password(),user.salt()));
         if (queryAdd.exec()) {
             success = true;
         } else {
@@ -149,11 +147,13 @@ User DbManager::getUser(const QString &username) {
 
     if(getUserQuery.exec()){
         if(getUserQuery.next()){
-            return {getUserQuery.value(1).toString(), getUserQuery.value(2).toString()};
+            return {getUserQuery.value(1).toString(), getUserQuery.value(2).toString(), getUserQuery.value(3).toString()};
         }
     } else {
         qDebug() << "Get user failed: " << getUserQuery.lastError();
+        throw std::runtime_error("Get user failed");
     }
+    return {};
 }
 
 

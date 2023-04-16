@@ -36,7 +36,8 @@ add_executable(KursayinCalculator
         Data/DbManager.cpp
         Data/DbManager.h
         Entities/User.h
-        )
+        Core/Src/HashPassword.cpp
+        Core/Headers/HashPassword.h)
 target_link_libraries(KursayinCalculator
         Qt6::Core
         Qt6::Gui

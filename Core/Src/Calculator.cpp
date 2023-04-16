@@ -10,11 +10,10 @@
 
 double Calculator::evaluateExpression(std::string *infixExpression) {
     //regex for shifting
-    std::regex leftShiftRegex("\\d << \\d");
-    std::regex rightShiftRegex("\\d >> \\d");
+    std::regex shiftRegex(R"(\d+\s*(<<|>>)\s*\d+)");
 
     //check if the expression is shifting or not
-    if (std::regex_match(*infixExpression, leftShiftRegex) || std::regex_match(*infixExpression, rightShiftRegex)) {
+    if (std::regex_match(*infixExpression, shiftRegex)) {
         //split the expression
         std::vector<std::string> tokens = splitString(*infixExpression);
 
@@ -38,7 +37,7 @@ double Calculator::evaluateExpression(std::string *infixExpression) {
     auto postfixExpression = Calculator::InfixToPostfix(infixExpression);
     auto stack = new std::stack<Number>();
     auto tokens = splitString(postfixExpression);
-    for (std::string token : tokens) {
+    for (const std::string& token : tokens) {
         double value;
         if (tryParseDouble(token,value))
         {
@@ -174,6 +173,9 @@ std::vector<std::string> Calculator::splitString(const std::string &str) {
     }
     std::string word = str.substr(last_pos);
     result.push_back(word);
+
+    //remove empty strings
+    result.erase(std::remove(result.begin(), result.end(), ""), result.end());
 
     return result;
 }

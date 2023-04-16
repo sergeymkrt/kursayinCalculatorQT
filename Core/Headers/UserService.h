@@ -8,6 +8,7 @@
 
 #include <QObject>
 #include "../../Data/DbManager.h"
+#include "HashPassword.h"
 
 class UserService : public QObject {
     Q_OBJECT
@@ -22,9 +23,10 @@ signals:
     void Failed();
 
 private:
-    static QString hashPassword(const QString &password);
-    static bool authenticate(const QString &password, const QString &hash);
+    QString hashPassword(const QString &password, const QString &salt);
+    bool authenticate(const QString &password,const QString &salt, const QString &hash);
     DbManager *dbManager{};
+    HashPassword *crypt;
 };
 
 

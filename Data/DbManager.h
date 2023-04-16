@@ -18,7 +18,7 @@ public:
     [[nodiscard]] bool isOpen() const;
     static bool createTables();
     bool addUser(const User &user);
-    bool isUserExist(const QString &login);
+    static bool isUserExist(const QString &login);
     bool removeUser(const QString &login);
     User getUser(const QString &login);
 private:
