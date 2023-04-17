@@ -88,10 +88,23 @@ Number Number::operator^(Number other) const {
 
 Number Number::operator<<(int bits) const {
     // shift left by bits
-    return Number(Value * std::ldexp(1.0,bits));
+    return Number(this->Value * std::ldexp(1.0,bits));
 }
 
 Number Number::operator>>(int bits) const {
     // shift right by bits
-    return Number(Value * std::ldexp(1.0,-bits));
+    return Number(this->Value * std::ldexp(1.0,-bits));
+}
+
+bool Number::operator==(Number other) const {
+    return this->Value == other.Value;
+}
+
+Number& Number::operator=(Number other) {
+    this->Value = other.Value;
+    return *this;
+}
+
+bool Number::operator!=(Number other) const {
+    return this->Value != other.Value;
 }

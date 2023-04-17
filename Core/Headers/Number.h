@@ -20,6 +20,9 @@ public:
     Number operator^(Number other) const;
     Number operator<<(int bits) const;
     Number operator>>(int bits) const;
+    bool operator==(Number other) const;
+    bool operator!=(Number other) const;
+    Number& operator=(Number other);
 };
 
 

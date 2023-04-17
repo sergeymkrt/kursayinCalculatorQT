@@ -19,6 +19,7 @@ double Calculator::evaluateExpression(std::string *infixExpression) {
 
         //get the number ( string to double )
         double number = std::stod(tokens[0]);
+        auto numberTemp = Number(number);
 
         //get the bits ( string to int )
         int bits = std::stoi(tokens[2]);
@@ -26,10 +27,10 @@ double Calculator::evaluateExpression(std::string *infixExpression) {
         //check if the expression is left shifting or right shifting
         if (tokens[1] == "<<") {
             //left shifting
-            return (int)number << bits;
+            return (numberTemp << bits).Value;
         } else {
             //right shifting
-            return (int)number >> bits;
+            return (numberTemp >> bits).Value;
         }
     }
 
